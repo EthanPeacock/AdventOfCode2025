@@ -37,6 +37,27 @@ func ReadFileLines(filePath string) []string {
 	return fileLines
 }
 
+func ReadFileLineBytes(filePath string) [][]byte {
+	file, err := os.Open(filePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	var fileLines [][]byte
+	for scanner.Scan() {
+		lineText := scanner.Text()
+		fileLines = append(fileLines, []byte(lineText))
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return fileLines
+}
+
 func StringToInt(x string) int {
 	xInt, err := strconv.Atoi(x)
 
